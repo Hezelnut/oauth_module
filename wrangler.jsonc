@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "oauth-worker",
+	"name": "oauth-worker", // 프로젝트 이름 설정할 것
 	"main": "src/index.ts",
 	"compatibility_date": "2026-06-07",
 	"observability": {
@@ -13,7 +13,35 @@
 	"upload_source_maps": true,
 	"compatibility_flags": [
 		"nodejs_compat"
+	],
+	"vars" :{
+		"SUPABASE_URL":"",
+		"ALLOWED_REDIRECT_ORIGINS":"",
+		// SUPABASE_ANON_KEY, ENCRYPTION_KEY 등 민감한 값은
+  		// wrangler secret put SUPABASE_ANON_KEY 로 별도 등록
+	},
+	// "kv_namespaces": [
+	// 	{
+	// 		"binding": "KV_SESSIONS",
+	// 		"id": "가나다라마바사"
+	//  }
+	//  ],
+	// 		// wrangler kv:namespace create KV_SESSIONS  ← KV 새로 생성
+	// 		// id는 wrangler kv:namespace list 명령어로 확인 후 입력
+	//		// 기존에 "kv_namespaces"를 만들어놓으면 명령어가 작동하지 않음.
+	//      // KV namespaces 삭제 방법 : wrangler kv namespace delete --namespace-id <ID>
+
+	"ratelimits": [
+		{
+			"name": "example_limiter",
+			"namespace_id": "1000", // namespace_id는 Worker마다 다르게 지정해야 함
+			"simple": {
+				"limit": 3, // 10초마다 3회 허용
+				"period": 10 // 10 또는 60 밖에 지정할 수 없음
+			}
+		}
 	]
+
 	/**
 	 * Smart Placement
 	 * https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement

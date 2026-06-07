@@ -7,7 +7,8 @@
     "dev": "wrangler dev",
     "start": "wrangler dev",
     "test": "vitest",
-    "cf-typegen": "wrangler types"
+    "cf-typegen": "wrangler types",
+    "keygen": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\""
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.12.4",
